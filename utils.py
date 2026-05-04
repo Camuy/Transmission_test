@@ -111,8 +111,8 @@ def compute_derived(filepath: str, cutoff: float) -> tuple:
     fs = 1.0 / float(np.diff(t).mean())
 
     # ── Electrical output ─────────────────────────────────────────────────
-    df["Voltage_V"]    = butter_lp(df["Aux Input 1"].values * 20, cutoff, fs)   # V
-    df["Current_A"]    = butter_lp(df["Aux Input 2"].values / 10.0 * 1000, cutoff, fs)   # A
+    df["Voltage_V"]    = butter_lp(df["Aux Input 1"].values / 200 * 1e3, cutoff, fs)   # V
+    df["Current_A"]    = butter_lp(df["Aux Input 2"].values / 100 * 1e3, cutoff, fs)   # A
     df["Current_mA"]   = df["Current_A"]  * 1e3     # A
     df["Power_out_W"]  = df["Voltage_V"]  * df["Current_A"] 
     df["Power_out_mW"] = df["Power_out_W"] * 1e3
@@ -128,7 +128,7 @@ def compute_derived(filepath: str, cutoff: float) -> tuple:
     df["Accel_ms2"]    = acc
     df["Accel_mms2"]   = acc * 1e3   # mm/s²
 
-    force = butter_lp(df["Ch 1 Force"].values * 1e3, cutoff, fs) * 10  # N
+    force = butter_lp(df["Ch 1 Force"].values * 1e3 * 2.066, cutoff, fs)  # N
     df["Force_N"] = force 
 
     df["Power_in_W"]  = force * vel
